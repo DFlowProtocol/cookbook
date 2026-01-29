@@ -1,0 +1,38 @@
+{
+  "name": "dflow-cookbook",
+  "version": "0.1.0",
+  "description": "A collection of TypeScript CLI tools to learn about DFlow - a trading protocol for Solana",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "dflow": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "watch": "tsc --watch"
+  },
+  "keywords": [
+    "dflow",
+    "solana",
+    "trading",
+    "cli",
+    "cookbook"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@dflow-protocol/swap-api-utils": "^0.1.0",
+    "@solana/spl-token": "^0.4.12",
+    "@solana/web3.js": "^1.95.0",
+    "commander": "^12.1.0",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "@types/bs58": "^4.0.4",
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
