@@ -5,3 +5,12 @@ dist/
 .env
 .env.local
 *.tsbuildinfo
+coverage/
+.env.*
+!.env.example
+.npmrc
+.vscode/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

@@ -27,7 +27,8 @@
     "@solana/spl-token": "^0.4.12",
     "@solana/web3.js": "^1.95.0",
     "commander": "^12.1.0",
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.2.3",
+    "ws": "^8.19.0"
   },
   "devDependencies": {
     "@types/bs58": "^4.0.4",

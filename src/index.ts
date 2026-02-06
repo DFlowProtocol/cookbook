@@ -39,6 +39,30 @@ const scripts: ScriptInfo[] = [
     description: "Quote, sign intent, submit, and monitor",
     needsPrivateKey: true,
   },
+  {
+    name: "ws-prices",
+    path: "src/websockets/prices.ts",
+    description: "WebSocket prices stream",
+    needsPrivateKey: false,
+  },
+  {
+    name: "ws-trades",
+    path: "src/websockets/trades.ts",
+    description: "WebSocket trades stream",
+    needsPrivateKey: false,
+  },
+  {
+    name: "ws-orderbook",
+    path: "src/websockets/orderbook.ts",
+    description: "WebSocket orderbook stream",
+    needsPrivateKey: false,
+  },
+  {
+    name: "ws-all",
+    path: "src/websockets/all-channels.ts",
+    description: "WebSocket prices + trades + orderbook streams",
+    needsPrivateKey: false,
+  },
 ];
 
 function getScriptByName(name: string) {
@@ -58,6 +82,9 @@ function runScript(scriptName: string, scriptArgs: string[]) {
   console.log(`  ${script.path}`);
   if (script.needsPrivateKey) {
     console.log("  Requires SOLANA_PRIVATE_KEY");
+  }
+  if (script.name.startsWith("ws-")) {
+    console.log("  Requires DFLOW_API_KEY for websocket auth");
   }
   if (scriptArgs.length > 0) {
     console.log(`  Args: ${scriptArgs.join(" ")}`);
