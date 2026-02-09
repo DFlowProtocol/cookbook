@@ -35,6 +35,10 @@ export SOLANA_PRIVATE_KEY='YourBase58PrivateKeyHere'
 tsx src/trading/imperative-trade.ts
 ```
 
+## Proof Demo (Next.js)
+
+The Proof KYC demo lives in `src/proof`. See [Proof README](/src/proof/README.md) for notes.
+
 ## Scripts
 
 | Script                                                  | What it does                                                        | Needs `SOLANA_PRIVATE_KEY` | Needs real funds |
