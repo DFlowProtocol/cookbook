@@ -77,6 +77,29 @@ tsx src/websockets/all-channels.ts
 
 The API key is sent in the `x-api-key` header during the WebSocket handshake.
 
+### Discover Live Data Schemas
+
+The `discover-live-data-schemas` script crawls the DFlow Prediction Markets API to discover all `liveData` type schemas for sports events and generates TypeScript interfaces. The `liveData.details` field varies by event type (e.g., `basketball_game`, `football_game`, `tennis_tournament_singles`) — this script introspects the API and generates up-to-date types automatically.
+
+```bash
+# Discover all Sports live data types (default)
+tsx src/prediction-markets/discover-live-data-schemas.ts
+
+# Specific sport tags only
+tsx src/prediction-markets/discover-live-data-schemas.ts Basketball Golf Tennis
+
+# Crawl every category (not just Sports)
+tsx src/prediction-markets/discover-live-data-schemas.ts --all
+```
+
+Output is written to `generated/` and includes:
+
+| Path                              | Contents                                                                          |
+| --------------------------------- | --------------------------------------------------------------------------------- |
+| `generated/live-data-types.ts`    | TypeScript interfaces, discriminated union (`LiveData`), and type guard functions |
+| `generated/examples/<type>.json`  | Full JSON response sampled from the API for each type                             |
+| `generated/templates/<type>.json` | Structural template with type placeholders (e.g., `"<number>"`, `"<string>"`)     |
+
 ### CLI Helper
 
 `src/index.ts` is a small CLI that lists available scripts and can run them by name.
