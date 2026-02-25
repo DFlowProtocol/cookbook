@@ -1,25 +1,22 @@
 import "dotenv/config";
-// WebSocket credentials are private and must be provided via .env.
-const API_KEY = process.env.DFLOW_API_KEY;
-const WS_URL = process.env.DFLOW_PREDICTION_MARKETS_WS_URL;
 
-const CREDS_HELP_URL = "https://pond.dflow.net/build/api-key";
+const DEV_WS_URL = "wss://dev-prediction-markets-api.dflow.net/api/v1/ws";
 
-export function requireWebSocketConfig() {
-  // Keep demo output clean and fail early if creds are missing.
-  if (!WS_URL || !API_KEY) {
-    console.error("Missing websocket credentials.");
-    console.error("Set DFLOW_PREDICTION_MARKETS_WS_URL and DFLOW_API_KEY.");
-    console.error(`Request credentials at ${CREDS_HELP_URL}`);
-    process.exit(1);
+const useDev = process.argv.includes("--dev");
+
+export function getWebSocketUrl(): string {
+  if (useDev) {
+    console.log("Using dev WebSocket URL (--dev flag)");
+    return DEV_WS_URL;
   }
 
-  return {
-    url: WS_URL,
-    headers: {
-      "x-api-key": API_KEY,
-    },
-  };
+  const envUrl = process.env.DFLOW_PREDICTION_MARKETS_WS_URL;
+  if (envUrl) {
+    return envUrl;
+  }
+
+  console.log("DFLOW_PREDICTION_MARKETS_WS_URL not set, using dev URL");
+  return DEV_WS_URL;
 }
 
 export function buildSubscription(channel: "prices" | "trades" | "orderbook") {

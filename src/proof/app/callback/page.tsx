@@ -15,6 +15,10 @@ export default function CallbackPage() {
   const [verifyState, setVerifyState] = useState<VerifyState>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  // Capture every query parameter Proof sends back on the redirect.
+  const allParams = Array.from(searchParams.entries());
+  const statusParam = searchParams.get("status");
+
   useEffect(() => {
     const walletFromQuery = searchParams.get("wallet");
     if (walletFromQuery) {
@@ -65,7 +69,38 @@ export default function CallbackPage() {
       </section>
 
       <section className="section card">
-        <p className="step-title">Verification status</p>
+        <p className="step-title">Redirect query parameters</p>
+        <p className="muted">
+          All query parameters returned by Proof on the redirect URL:
+        </p>
+        {allParams.length === 0 ? (
+          <div className="code">No query parameters</div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+            {allParams.map(([key, value]) => (
+              <div
+                key={key}
+                className="code"
+                style={key === "status" ? { border: "1px solid #4ade80" } : undefined}
+              >
+                <strong>{key}</strong>: {value}
+              </div>
+            ))}
+          </div>
+        )}
+        {statusParam !== null ? (
+          <p className="muted" style={{ marginTop: "8px" }}>
+            Proof returned <strong>status={statusParam}</strong> on the redirect.
+          </p>
+        ) : (
+          <p className="muted" style={{ marginTop: "8px" }}>
+            Proof did <strong>not</strong> include a &quot;status&quot; parameter on the redirect.
+          </p>
+        )}
+      </section>
+
+      <section className="section card">
+        <p className="step-title">Verification status (from API)</p>
         {verifyState === "idle" && (
           <span className="badge neutral">Waiting for wallet...</span>
         )}

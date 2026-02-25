@@ -8,13 +8,13 @@ import "dotenv/config";
 import WebSocket from "ws";
 import {
   buildSubscription,
-  requireWebSocketConfig,
+  getWebSocketUrl,
   parseMessageData,
 } from "./ws-utils";
 
-const { url, headers } = requireWebSocketConfig();
+const url = getWebSocketUrl();
 console.log("Connecting to WebSocket", url);
-const ws = new WebSocket(url, { headers });
+const ws = new WebSocket(url);
 
 ws.onopen = () => {
   console.log("Connected to WebSocket (all channels)");
