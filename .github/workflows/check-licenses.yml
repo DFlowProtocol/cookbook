@@ -1,0 +1,56 @@
+---
+name: "Check Licenses"
+
+# yamllint disable-line rule:truthy
+on:
+  pull_request:
+    branches:
+      - "*"
+  push:
+    branches:
+      - "main"
+
+concurrency:
+  group: "check-licenses-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  check-licenses:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Checkout license-checker-action
+        uses: actions/checkout@v6
+        with:
+          repository: "DFlowProtocol/license-checker-action"
+          token: ${{ secrets.LICENSE_AUDIT_PAT_TOKEN }}
+          path: "./.github/actions/license-checker"
+
+      # syft depends on populated dependency cache
+      # in order to build the SBOM
+
+      # nodejs
+      - name: Setup node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: "yarn" # npm or pnpm
+
+      - name: Install yarn dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Check licenses
+        uses: ./.github/actions/license-checker
+        continue-on-error: true
+        with:
+          allowed-licenses: ${{ vars.LICENSE_AUDIT_ALLOWED_LICENSES }}
+          comment-on-failure: "false"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          license-audit-api-key: ${{ secrets.LICENSE_AUDIT_API_KEY }}
+          license-audit-api-url: ${{ secrets.LICENSE_AUDIT_API_URL }}
+          license-overrides: ${{ vars.LICENSE_AUDIT_LICENSE_OVERRIDES }}
