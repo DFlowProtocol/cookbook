@@ -13,7 +13,7 @@
     "@phantom/browser-sdk": "^1.0.2",
     "@phantom/react-sdk": "^1.0.2",
     "bs58": "^6.0.0",
-    "next": "15.5.21",
+    "next": "15.5.24",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
